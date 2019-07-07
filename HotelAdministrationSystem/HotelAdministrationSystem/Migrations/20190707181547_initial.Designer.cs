@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HotelAdministrationSystem.Migrations
 {
     [DbContext(typeof(HotelSystemDBContext))]
-    [Migration("20190705200905_Initial")]
-    partial class Initial
+    [Migration("20190707181547_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,8 +23,7 @@ namespace HotelAdministrationSystem.Migrations
 
             modelBuilder.Entity("HotelAdministrationSystem.Domain.Entities.Client", b =>
                 {
-                    b.Property<Guid>("ClientGuid")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("ClientGuid");
 
                     b.Property<DateTime>("DepartureDate");
 
@@ -33,6 +32,8 @@ namespace HotelAdministrationSystem.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("Patronymic");
+
+                    b.Property<Guid>("RoomGuid");
 
                     b.Property<string>("Surname");
 
@@ -43,46 +44,17 @@ namespace HotelAdministrationSystem.Migrations
 
             modelBuilder.Entity("HotelAdministrationSystem.Domain.Entities.Room", b =>
                 {
-                    b.Property<Guid>("RoomGuid")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("RoomGuid");
 
                     b.Property<int>("Capacity");
+
+                    b.Property<int>("Residents");
 
                     b.Property<int>("RoomType");
 
                     b.HasKey("RoomGuid");
 
                     b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("HotelAdministrationSystem.Domain.Entities.RoomState", b =>
-                {
-                    b.Property<Guid>("RoomStateGuid");
-
-                    b.Property<Guid>("ClientGuid");
-
-                    b.Property<Guid>("RoomGuid");
-
-                    b.HasKey("RoomStateGuid");
-
-                    b.HasIndex("ClientGuid");
-
-                    b.HasIndex("RoomGuid");
-
-                    b.ToTable("RoomStates");
-                });
-
-            modelBuilder.Entity("HotelAdministrationSystem.Domain.Entities.RoomState", b =>
-                {
-                    b.HasOne("HotelAdministrationSystem.Domain.Entities.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientGuid")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HotelAdministrationSystem.Domain.Entities.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomGuid")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
