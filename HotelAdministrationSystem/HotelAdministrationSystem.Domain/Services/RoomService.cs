@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelAdministrationSystem.Domain.Services
 {
-    public class RoomService : IRoomServise
+    public class RoomService : IRoomService
     {
         private readonly HotelSystemDBContext _context;
 
@@ -25,23 +25,17 @@ namespace HotelAdministrationSystem.Domain.Services
 
         public IQueryable<RoomDto> GetRooms()
         {
-            var rooms = from r in _context.Rooms
-                select new RoomDto()
-                {
-                    RoomGuid = r.RoomGuid,
-                    Capacity = r.Capacity,
-                    RoomType = r.RoomType
-                };
+            var rooms = _context.Rooms.AsNoTracking().Select(x => new RoomDto(x));
             return rooms;
         }
-        
+
         public async Task CreateRoom(RoomInfo info)
         {
             var room = new Room(info);
             _context.Rooms.Add(room);
             await _context.SaveChangesAsync();
         }
-        
+
         public async Task DeleteRoom(Guid roomGuid)
         {
             var room = _context.Rooms.FindAsync(roomGuid);

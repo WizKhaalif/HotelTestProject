@@ -27,13 +27,13 @@ namespace HotelAdministrationSystem.Controllers
             return _clientServise.GetClients();
         }
 
-        [HttpPost("dick")]
+        [HttpPost("addclient")]
         public async Task CreateClient(ClientInfo info)
         {
             await _clientServise.CreateClient(info);
         }
 
-        [HttpDelete("pussy")]
+        [HttpDelete("deleteclient")]
         public async Task DeleteClient(Guid clientGuid)
         {
             await _clientServise.DeleteClient(clientGuid);

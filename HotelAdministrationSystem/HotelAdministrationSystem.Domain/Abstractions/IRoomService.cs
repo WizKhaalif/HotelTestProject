@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HotelAdministrationSystem.Domain.Abstractions
 {
-    public interface IRoomServise
+    public interface IRoomService
     {
         IQueryable<RoomDto> GetRooms();
         Task CreateRoom(RoomInfo info);

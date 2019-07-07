@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using HotelAdministrationSystem.Domain.Entities;
 
 namespace HotelAdministrationSystem.Contracts.Dto
 {
@@ -9,6 +10,15 @@ namespace HotelAdministrationSystem.Contracts.Dto
     {
         public Guid RoomGuid { get; set; }
         public int Capacity { get; set; }
+        public int Residents { get; set; }
         public RoomTypeOption RoomType { get; set; }
+
+        public RoomDto(Room room)
+        {
+            RoomGuid = room.RoomGuid;
+            Capacity = room.Capacity;
+            Residents = room.Residents;
+            RoomType = room.RoomType;
+        }
     }
 }

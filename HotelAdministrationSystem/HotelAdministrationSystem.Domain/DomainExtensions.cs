@@ -11,7 +11,7 @@ namespace HotelAdministrationSystem.Domain.Entities
     {
         public static IServiceCollection AddDomainServices(this IServiceCollection collection)
         {
-            collection.AddScoped<IRoomServise, RoomService>();
+            collection.AddScoped<IRoomService, RoomService>();
             collection.AddScoped<IClientServise, ClientService>();
             return collection;
         }

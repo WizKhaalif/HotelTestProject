@@ -10,7 +10,6 @@ namespace HotelAdministrationSystem.Domain.DataBase
     {
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Client> Clients { get; set; }
-        public DbSet<RoomState> RoomStates { get; set; }
 
         public HotelSystemDBContext(DbContextOptions<HotelSystemDBContext> options) : base(options)
         {

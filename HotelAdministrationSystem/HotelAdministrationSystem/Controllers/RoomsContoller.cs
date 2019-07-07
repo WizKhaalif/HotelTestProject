@@ -14,29 +14,29 @@ namespace HotelAdministrationSystem.Controllers
     [ApiController]
     public class RoomsContoller : Controller
     {
-        private readonly IRoomServise _roomServise;
+        private readonly IRoomService _roomService;
 
-        public RoomsContoller(IRoomServise roomServise)
+        public RoomsContoller(IRoomService roomService)
         {
-            _roomServise = roomServise;
+            _roomService = roomService;
         }
 
         [HttpGet]
         public IQueryable<RoomDto> GetRooms()
         {
-            return _roomServise.GetRooms();
+            return _roomService.GetRooms();
         }
 
-        [HttpPost("dick")]
+        [HttpPost("addroom")]
         public async Task CreateRoom(RoomInfo info)
         {
-            await _roomServise.CreateRoom(info);
+            await _roomService.CreateRoom(info);
         }
 
-        [HttpDelete("pussy")]
+        [HttpDelete("deleteroom")]
         public async Task DeleteRoom(Guid roomGuid)
         {
-            await _roomServise.DeleteRoom(roomGuid);
+            await _roomService.DeleteRoom(roomGuid);
         }
     }
 }

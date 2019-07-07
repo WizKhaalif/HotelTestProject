@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelAdministrationSystem.Domain.Services
 {
@@ -22,18 +23,9 @@ namespace HotelAdministrationSystem.Domain.Services
 
         public IQueryable<ClientDto> GetClients()
         {
-            var clients = from r in _context.Clients
-                select new ClientDto()
-                {
-                    ClientGuid = r.ClientGuid,
-                    Name = r.Name,
-                    Surname = r.Surname,
-                    Patronymic = r.Patronymic,
-                    EntryDate = r.EntryDate,
-                    DepartureDate = r.DepartureDate
-                };
+            var clients = _context.Clients.AsNoTracking().Select(x => new ClientDto(x));
             return clients;
-        }
+        }   
 
         public async Task CreateClient(ClientInfo info)
         {
