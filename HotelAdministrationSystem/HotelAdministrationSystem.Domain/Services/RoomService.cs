@@ -38,8 +38,9 @@ namespace HotelAdministrationSystem.Domain.Services
 
         public async Task DeleteRoom(Guid roomGuid)
         {
-            var room = _context.Rooms.FindAsync(roomGuid);
-            _context.Rooms.Remove(room.Result);
+            var room = await _context.Rooms.FindAsync(roomGuid);
+            if (room.Occupied == false)
+                _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
         }
     }

@@ -10,5 +10,6 @@ namespace HotelAdministrationSystem.Contracts.Actions
         public int Capacity { get; set; }
         public int Residents { get; set; }
         public RoomTypeOption RoomType { get; set; }
+        public bool Occupied { get; set; }
     }
 }

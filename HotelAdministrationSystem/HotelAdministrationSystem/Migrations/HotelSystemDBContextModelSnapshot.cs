@@ -46,6 +46,8 @@ namespace HotelAdministrationSystem.Migrations
 
                     b.Property<int>("Capacity");
 
+                    b.Property<bool>("Occupied");
+
                     b.Property<int>("Residents");
 
                     b.Property<int>("RoomType");

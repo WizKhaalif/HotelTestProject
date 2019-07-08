@@ -16,6 +16,7 @@ namespace HotelAdministrationSystem.Domain.Entities
         public int Capacity { get; set; }
         public int Residents { get; set; }
         public RoomTypeOption RoomType { get; set; }
+        public bool Occupied { get; set; }
 
         public Room()
         {
@@ -24,10 +25,11 @@ namespace HotelAdministrationSystem.Domain.Entities
 
         public Room(RoomInfo info)
         {
+            RoomGuid = Guid.NewGuid();
             Capacity = info.Capacity;
             Residents = info.Residents;
             RoomType = info.RoomType;
-            RoomGuid = Guid.NewGuid();
+            Occupied = info.Occupied;
         }
     }
 }

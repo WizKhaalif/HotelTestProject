@@ -12,6 +12,7 @@ namespace HotelAdministrationSystem.Contracts.Dto
         public int Capacity { get; set; }
         public int Residents { get; set; }
         public RoomTypeOption RoomType { get; set; }
+        public bool Occupied { get; set; }
 
         public RoomDto(Room room)
         {
@@ -19,6 +20,7 @@ namespace HotelAdministrationSystem.Contracts.Dto
             Capacity = room.Capacity;
             Residents = room.Residents;
             RoomType = room.RoomType;
+            Occupied = room.Occupied;
         }
     }
 }

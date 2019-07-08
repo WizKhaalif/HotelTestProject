@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HotelAdministrationSystem.Domain.Abstractions
 {
-    public interface IClientServise
+    public interface IClientService
     {
         IQueryable<ClientDto> GetClients();
         Task CreateClient(ClientInfo info);

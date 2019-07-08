@@ -27,13 +27,13 @@ namespace HotelAdministrationSystem.Controllers
             return _roomService.GetRooms();
         }
 
-        [HttpPost("addroom")]
+        [HttpPost("AddRoom")]
         public async Task CreateRoom(RoomInfo info)
         {
             await _roomService.CreateRoom(info);
         }
 
-        [HttpDelete("deleteroom")]
+        [HttpDelete("DeleteRoom")]
         public async Task DeleteRoom(Guid roomGuid)
         {
             await _roomService.DeleteRoom(roomGuid);

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HotelAdministrationSystem.Migrations
 {
     [DbContext(typeof(HotelSystemDBContext))]
-    [Migration("20190707181547_initial")]
+    [Migration("20190708153135_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,8 @@ namespace HotelAdministrationSystem.Migrations
                     b.Property<Guid>("RoomGuid");
 
                     b.Property<int>("Capacity");
+
+                    b.Property<bool>("Occupied");
 
                     b.Property<int>("Residents");
 

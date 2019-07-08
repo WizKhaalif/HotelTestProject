@@ -31,7 +31,8 @@ namespace HotelAdministrationSystem.Migrations
                     RoomGuid = table.Column<Guid>(nullable: false),
                     Capacity = table.Column<int>(nullable: false),
                     Residents = table.Column<int>(nullable: false),
-                    RoomType = table.Column<int>(nullable: false)
+                    RoomType = table.Column<int>(nullable: false),
+                    Occupied = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

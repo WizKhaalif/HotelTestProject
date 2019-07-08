@@ -14,29 +14,29 @@ namespace HotelAdministrationSystem.Controllers
     [ApiController]
     public class ClientsContoller : Controller
     {
-        private readonly IClientServise _clientServise;
+        private readonly IClientService _clientService;
 
-        public ClientsContoller(IClientServise clientServise)
+        public ClientsContoller(IClientService clientService)
         {
-            _clientServise = clientServise;
+            _clientService = clientService;
         }
 
         [HttpGet]
         public IQueryable<ClientDto> GetClients()
         {
-            return _clientServise.GetClients();
+            return _clientService.GetClients();
         }
 
-        [HttpPost("addclient")]
+        [HttpPost("AddClient")]
         public async Task CreateClient(ClientInfo info)
         {
-            await _clientServise.CreateClient(info);
+            await _clientService.CreateClient(info);
         }
 
-        [HttpDelete("deleteclient")]
+        [HttpDelete("DeleteClient")]
         public async Task DeleteClient(Guid clientGuid)
         {
-            await _clientServise.DeleteClient(clientGuid);
+            await _clientService.DeleteClient(clientGuid);
         }
     }
 }
