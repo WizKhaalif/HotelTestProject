@@ -33,6 +33,18 @@ namespace HotelAdministrationSystem.Controllers
             await _clientService.CreateClient(info);
         }
 
+        [HttpPut("EvictClient")]
+        public async Task EvictClient(Guid clientGuid)
+        {
+            await _clientService.EvictClient(clientGuid);
+        }
+
+        [HttpPut("UpdateClients")]
+        public async Task UpdateClients()
+        {
+            await _clientService.UpdateClients();
+        }
+
         [HttpDelete("DeleteClient")]
         public async Task DeleteClient(Guid clientGuid)
         {

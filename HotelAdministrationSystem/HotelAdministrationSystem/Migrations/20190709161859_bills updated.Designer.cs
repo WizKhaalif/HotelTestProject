@@ -3,15 +3,17 @@ using System;
 using HotelAdministrationSystem.Domain.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HotelAdministrationSystem.Migrations
 {
     [DbContext(typeof(HotelSystemDBContext))]
-    partial class HotelSystemDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190709161859_bills updated")]
+    partial class billsupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

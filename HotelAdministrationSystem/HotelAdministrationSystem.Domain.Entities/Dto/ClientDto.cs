@@ -14,6 +14,8 @@ namespace HotelAdministrationSystem.Contracts.Dto
         public Guid RoomGuid { get; set; }
         public DateTime EntryDate { get; set; }
         public DateTime DepartureDate { get; set; }
+        public decimal Bill { get; set; }
+        public bool NowStaying { get; set; }
 
         public ClientDto(Client client)
         {
@@ -24,6 +26,8 @@ namespace HotelAdministrationSystem.Contracts.Dto
             RoomGuid = client.RoomGuid;
             EntryDate = client.EntryDate;
             DepartureDate = client.DepartureDate;
+            Bill = client.Bill;
+            NowStaying = client.NowStaying;
         }
     }
 }

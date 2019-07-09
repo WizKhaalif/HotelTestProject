@@ -8,8 +8,7 @@ namespace HotelAdministrationSystem.Contracts.Actions
     public class RoomInfo
     {
         public int Capacity { get; set; }
-        public int Residents { get; set; }
         public RoomTypeOption RoomType { get; set; }
-        public bool Occupied { get; set; }
+        public decimal Price { get; set; }
     }
 }

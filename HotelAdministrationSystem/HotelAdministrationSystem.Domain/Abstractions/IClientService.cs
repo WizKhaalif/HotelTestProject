@@ -13,5 +13,7 @@ namespace HotelAdministrationSystem.Domain.Abstractions
         IQueryable<ClientDto> GetClients();
         Task CreateClient(ClientInfo info);
         Task DeleteClient(Guid clientGuid);
+        Task EvictClient(Guid clientGuid);
+        Task UpdateClients();
     }
 }
