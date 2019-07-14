@@ -3,13 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelAdministrationSystem", "HotelAdministrationSystem\HotelAdministrationSystem.csproj", "{4C1CADCF-1C2E-436C-9217-77AB167C80BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelAdministrationSystem", "HotelAdministrationSystem\HotelAdministrationSystem.csproj", "{4C1CADCF-1C2E-436C-9217-77AB167C80BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelAdministrationSystem.Domain", "HotelAdministrationSystem.Domain\HotelAdministrationSystem.Domain.csproj", "{93C931FE-79AB-441F-86C7-26FFE2DE1E32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelAdministrationSystem.Domain", "HotelAdministrationSystem.Domain\HotelAdministrationSystem.Domain.csproj", "{93C931FE-79AB-441F-86C7-26FFE2DE1E32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelAdministrationSystem.Domain.Entities", "HotelAdministrationSystem.Domain.Entities\HotelAdministrationSystem.Domain.Entities.csproj", "{44B30CCC-E627-46F8-9EB8-61E0D99B2C69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelAdministrationSystem.Domain.Entities", "HotelAdministrationSystem.Domain.Entities\HotelAdministrationSystem.Domain.Entities.csproj", "{44B30CCC-E627-46F8-9EB8-61E0D99B2C69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelAdministrationSystem.Contracts", "HotelAdministrationSystem.Contracts\HotelAdministrationSystem.Contracts.csproj", "{A5BD4E3F-B2F9-44C3-8282-E6E7DDD54C8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelAdministrationSystem.Contracts", "HotelAdministrationSystem.Contracts\HotelAdministrationSystem.Contracts.csproj", "{A5BD4E3F-B2F9-44C3-8282-E6E7DDD54C8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Administration", "Administration", "{300FA026-1A06-4EF9-820C-949B51405D51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{03FAB006-A78F-4D34-91A0-F5587BE3F17C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationSystem", "AuthorizationSystem\AuthorizationSystem.csproj", "{37AA093E-4F2D-4198-83B3-363FE11F867C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{738FE705-AFA3-4CDB-BB30-E918205A360B}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +44,20 @@ Global
 		{A5BD4E3F-B2F9-44C3-8282-E6E7DDD54C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5BD4E3F-B2F9-44C3-8282-E6E7DDD54C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5BD4E3F-B2F9-44C3-8282-E6E7DDD54C8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37AA093E-4F2D-4198-83B3-363FE11F867C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37AA093E-4F2D-4198-83B3-363FE11F867C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37AA093E-4F2D-4198-83B3-363FE11F867C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37AA093E-4F2D-4198-83B3-363FE11F867C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C1CADCF-1C2E-436C-9217-77AB167C80BD} = {300FA026-1A06-4EF9-820C-949B51405D51}
+		{93C931FE-79AB-441F-86C7-26FFE2DE1E32} = {300FA026-1A06-4EF9-820C-949B51405D51}
+		{44B30CCC-E627-46F8-9EB8-61E0D99B2C69} = {300FA026-1A06-4EF9-820C-949B51405D51}
+		{A5BD4E3F-B2F9-44C3-8282-E6E7DDD54C8F} = {300FA026-1A06-4EF9-820C-949B51405D51}
+		{37AA093E-4F2D-4198-83B3-363FE11F867C} = {03FAB006-A78F-4D34-91A0-F5587BE3F17C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDB66515-F000-4898-8B54-2B02D1B74D10}
