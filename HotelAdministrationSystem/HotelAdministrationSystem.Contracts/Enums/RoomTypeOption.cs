@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HotelAdministrationSystem.Contracts.Enums
+﻿namespace HotelAdministrationSystem.Contracts.Enums
 {
     public enum RoomTypeOption
     {

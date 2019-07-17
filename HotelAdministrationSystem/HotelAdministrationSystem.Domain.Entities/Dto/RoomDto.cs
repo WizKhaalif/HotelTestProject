@@ -1,7 +1,5 @@
 ﻿using HotelAdministrationSystem.Contracts.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using HotelAdministrationSystem.Domain.Entities;
 
 namespace HotelAdministrationSystem.Contracts.Dto

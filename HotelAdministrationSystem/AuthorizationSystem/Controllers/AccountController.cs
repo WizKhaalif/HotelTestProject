@@ -1,93 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
-using AuthorizationSystem.Models;
-using AuthorizationSystem.ViewModels;
-using Microsoft.AspNetCore.Identity;
+using AuthorizationSystem.Contracts;
+using AuthorizationSystem.Contracts.Actions;
+using AuthorizationSystem.Domain.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace AuthorizationSystem.Controllers
 {
+    [Route("Api/[controller]")]
+    [ApiController]
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly IUserService _userService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(IUserService userService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _userService = userService;
         }
 
-        [HttpGet]
-        public IActionResult Register()
+        [HttpPost("/token")]
+        public async Task Token(UserInfo info)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
+            var identity = _userService.GetIdentity(info.Username, info.Password);
+            if (identity == null)
             {
-                User user = new User { Email = model.Email, UserName = model.Email};
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {   
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Invalid username or password.");
+                return;
             }
-            return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult Login(string returnUrl = null)
-        {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
+            var now = DateTime.Now;
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var response = new
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
-                {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                }
-            }
-            return View(model);
+                access_token = encodedJwt,
+                username = identity.Name
+            };
+            Response.ContentType = "application/json";
+            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        [HttpPost("/create")]
+        public async Task CreateUser(UserInfo info)
         {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            await _userService.CreateUser(info);
+        }
+
+        [HttpDelete("/delete")]
+        [Authorize]
+        public async Task DeleteUser(string username)
+        {
+            await _userService.DeleteUser(username);
         }
     }
 }

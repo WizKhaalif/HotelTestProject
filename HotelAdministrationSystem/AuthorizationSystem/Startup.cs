@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AuthorizationSystem.Models;
+﻿using AuthorizationSystem.Contracts;
+using AuthorizationSystem.Domain;
+using AuthorizationSystem.Domain.Database;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Converters;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace AuthorizationSystem
@@ -26,27 +22,47 @@ namespace AuthorizationSystem
 
         public IConfiguration Configuration { get; }
 
-
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(x => x.SerializerSettings.Converters.Add(new StringEnumConverter()));
-            services.AddDbContext<ApplicationContext>(options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidateAudience = true,
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDbContext<UserDBContext>(options =>
             {
                 options.UseNpgsql(Configuration["DbConnectionString"],
                     c => c.MigrationsAssembly("AuthorizationSystem"));
             });
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationContext>();
+            services.AddDomainServices();
             services.AddSwaggerGen(opt =>
             {
-                opt.SwaggerDoc("authapi", new Info { Title = "AuthorizationSystemApi", Version = "authapi" });
+                opt.SwaggerDoc("authapi", new Info { Title = "AuthSystemApi", Version = "authapi" });
                 opt.DescribeAllEnumsAsStrings();
+                opt.AddSecurityDefinition("Bearer",
+                    new ApiKeyScheme
+                    {
+                        In = "header",
+                        Description = "Please enter into field the word 'Bearer' following by space and JWT",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
             });
         }
 
-
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -55,19 +71,25 @@ namespace AuthorizationSystem
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseMvc(routes =>
+            app.UseSwagger(c =>
+                {
+                    c.RouteTemplate = ("api/{documentName}/swagger/swagger.json");
+                }
+            );
+            app.UseSwaggerUI(options =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                options.SwaggerEndpoint("/api/authapi/swagger/swagger.json", "AuthSystemApi");
+                options.RoutePrefix = "api/help";
             });
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseMvc();
         }
     }
 }

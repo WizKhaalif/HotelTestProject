@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HotelAdministrationSystem.Domain.Abstractions;
-using HotelAdministrationSystem.Domain.Entities;
 using HotelAdministrationSystem.Contracts.Actions;
 using HotelAdministrationSystem.Contracts.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelAdministrationSystem.Controllers
 {
     [Route("Api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientsContoller : Controller
     {
         private readonly IClientService _clientService;

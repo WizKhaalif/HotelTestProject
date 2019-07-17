@@ -1,8 +1,6 @@
 ﻿using HotelAdministrationSystem.Contracts.Enums;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using HotelAdministrationSystem.Contracts.Actions;
 using System.ComponentModel.DataAnnotations.Schema;
 
