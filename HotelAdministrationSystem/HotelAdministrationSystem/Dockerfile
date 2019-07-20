@@ -12,6 +12,10 @@ COPY ["HotelAdministrationSystem/HotelAdministrationSystem.csproj", "HotelAdmini
 COPY ["HotelAdministrationSystem.Domain/HotelAdministrationSystem.Domain.csproj", "HotelAdministrationSystem.Domain/"]
 COPY ["HotelAdministrationSystem.Domain.Entities/HotelAdministrationSystem.Domain.Entities.csproj", "HotelAdministrationSystem.Domain.Entities/"]
 COPY ["HotelAdministrationSystem.Contracts/HotelAdministrationSystem.Contracts.csproj", "HotelAdministrationSystem.Contracts/"]
+COPY ["AuthorizationSystem/AuthorizationSystem.csproj", "AuthorizationSystem/"]
+COPY ["AuthorizationSystem.Domain/AuthorizationSystem.Domain.csproj", "AuthorizationSystem.Domain/"]
+COPY ["AuthorizationSystem.Domain.Entities/AuthorizationSystem.Domain.Entities.csproj", "AuthorizationSystem.Domain.Entities/"]
+COPY ["AuthorizationSystem.Contracts/AuthorizationSystem.Contracts.csproj", "AuthorizationSystem.Contracts/"]
 RUN dotnet restore "HotelAdministrationSystem/HotelAdministrationSystem.csproj"
 COPY . .
 WORKDIR "/src/HotelAdministrationSystem"

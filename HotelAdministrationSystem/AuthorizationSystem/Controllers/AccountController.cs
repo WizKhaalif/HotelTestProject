@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AuthorizationSystem.Contracts;
 using AuthorizationSystem.Contracts.Actions;
 using AuthorizationSystem.Domain.Abstractions;
+using AuthorizationSystem.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,31 +25,24 @@ namespace AuthorizationSystem.Controllers
         }
 
         [HttpPost("/token")]
-        public async Task Token(UserInfo info)
+        public async Task GetToken(UserInfo info)
         {
-            var identity = _userService.GetIdentity(info.Username, info.Password);
-            if (identity == null)
+            if (_userService.GetIdentity(info.Username, info.Password) == null)
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("Invalid username or password.");
                 return;
             }
-            var now = DateTime.Now;
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            var response = new
+            else
             {
-                access_token = encodedJwt,
-                username = identity.Name
-            };
-            Response.ContentType = "application/json";
-            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+                var response = new
+                {
+                    access_token = _userService.GetToken(info).Result.Value,
+                    expiration_date = _userService.GetToken(info).Result.ExpirationDate
+                };
+                Response.ContentType = "application/json";
+                await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            }
         }
 
         [HttpPost("/create")]

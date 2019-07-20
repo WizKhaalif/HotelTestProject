@@ -2,10 +2,16 @@
 using AuthorizationSystem.Controllers;
 using AuthorizationSystem.Domain.Abstractions;
 using AuthorizationSystem.Domain.Database;
+using AuthorizationSystem.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AuthorizationSystem.Contracts;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System;
+using System.Security.Principal;
 
 namespace AuthorizationSystem.Domain.Services
 {
@@ -20,20 +26,18 @@ namespace AuthorizationSystem.Domain.Services
 
         public ClaimsIdentity GetIdentity(string username, string password)
         {
-            User user = _context.Users.Where(x => x.Username == username && x.Password == password).First();
-            if (user != null)
+            if (_context.Users.Where(x => x.Username == username && x.Password == password).Count() != 0)
             {
-                var claims = new List<Claim>
+                User user = _context.Users.Where(x => x.Username == username && x.Password == password).First();
+                var identity = new ClaimsIdentity(new GenericIdentity(user.Username), new[]
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
-                };
-                ClaimsIdentity claimsIdentity =
-                    new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                        ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
+                    new Claim("username", user.Username),
+                    new Claim("role", user.Role)
+                });
+                return identity;
             }
-            return null;
+            else
+                return null;
         }
 
         public async Task CreateUser(UserInfo info)
@@ -51,6 +55,30 @@ namespace AuthorizationSystem.Domain.Services
             var user = await _context.Users.FindAsync(username);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
+        }
+
+        public Token IssueToken(ClaimsIdentity identity)
+        {
+            var securityKey = AuthOptions.GetSymmetricSecurityKey();
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var token = jwtTokenHandler.CreateJwtSecurityToken(AuthOptions.Issuer,
+                subject: identity,
+                signingCredentials: signingCredentials,
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(AuthOptions.Lifetime)));
+            return new Token
+            {
+                Value = jwtTokenHandler.WriteToken(token),
+                ExpirationDate = token.ValidTo
+            };
+        }
+
+        public Task<Token> GetToken(UserInfo info)
+        {
+            var identity = GetIdentity(info.Username, info.Password);
+            var token = IssueToken(identity);
+            return Task.FromResult(token);
         }
     }
 }
