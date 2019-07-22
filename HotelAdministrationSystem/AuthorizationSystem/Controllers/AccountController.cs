@@ -1,14 +1,9 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using AuthorizationSystem.Contracts;
+﻿using System.Threading.Tasks;
 using AuthorizationSystem.Contracts.Actions;
 using AuthorizationSystem.Domain.Abstractions;
-using AuthorizationSystem.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace AuthorizationSystem.Controllers

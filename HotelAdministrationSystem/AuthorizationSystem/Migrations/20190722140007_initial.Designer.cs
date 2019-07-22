@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthorizationSystem.Migrations
 {
     [DbContext(typeof(UserDBContext))]
-    [Migration("20190717220419_initial")]
+    [Migration("20190722140007_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
