@@ -30,8 +30,7 @@ namespace AuthorizationSystem
 
             using (var scope = host.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetService<UserDBContext>();
-                db.Database.Migrate();
+                scope.ServiceProvider.GetRequiredService<UserDBContext>().Database.Migrate();
             }
 
             return host;

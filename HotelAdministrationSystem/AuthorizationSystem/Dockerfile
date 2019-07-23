@@ -19,5 +19,6 @@ RUN dotnet publish "AuthorizationSystem.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_ENVIRONMENT=Production
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "AuthorizationSystem.dll"]

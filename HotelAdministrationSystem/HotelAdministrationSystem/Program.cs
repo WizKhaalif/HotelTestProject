@@ -3,6 +3,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace HotelAdministrationSystem
 {
@@ -17,6 +18,8 @@ namespace HotelAdministrationSystem
         //    WebHost.CreateDefaultBuilder(args)
         //        .UseStartup<Startup>();
 
+
+
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();
@@ -30,8 +33,7 @@ namespace HotelAdministrationSystem
 
             using (var scope = host.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetService<HotelSystemDBContext>();
-                db.Database.Migrate();
+                scope.ServiceProvider.GetRequiredService<HotelSystemDBContext>().Database.Migrate();
             }
 
             return host;

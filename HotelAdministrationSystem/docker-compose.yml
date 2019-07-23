@@ -1,11 +1,8 @@
 version: '3.4'
 
 volumes:
-#  hotel-postgres-data:
   postgres-data:
     driver: local
-#  identity-postgres-data:
-#    driver: local
 
 services:
 
@@ -27,16 +24,6 @@ services:
       - database.pg
     ports: 
       - 5000:80
-
-#  identity-database.pg:
-#    image: postgres:11    
-#    volumes: 
-#      - identity-postgres-data:/var/lib/postgresql/data
-#    environment: 
-#      POSTGRES_USER: postgres 
-#      POSTGRES_PASSWORD: root 
-#    ports: 
-#      - 5003:5432
 
   identity.api:
     build:
