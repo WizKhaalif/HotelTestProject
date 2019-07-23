@@ -17,7 +17,9 @@ namespace HotelAdministrationSystem.Migrations
                     Patronymic = table.Column<string>(nullable: true),
                     RoomGuid = table.Column<Guid>(nullable: false),
                     EntryDate = table.Column<DateTime>(nullable: false),
-                    DepartureDate = table.Column<DateTime>(nullable: false)
+                    DepartureDate = table.Column<DateTime>(nullable: false),
+                    Bill = table.Column<decimal>(nullable: false),
+                    NowStaying = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +34,8 @@ namespace HotelAdministrationSystem.Migrations
                     Capacity = table.Column<int>(nullable: false),
                     Residents = table.Column<int>(nullable: false),
                     RoomType = table.Column<int>(nullable: false),
-                    Occupied = table.Column<bool>(nullable: false)
+                    Occupied = table.Column<bool>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {

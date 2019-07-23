@@ -1,17 +1,40 @@
-﻿using Microsoft.AspNetCore;
+﻿using AuthorizationSystem.Domain.Database;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthorizationSystem
 {
     public class Program
     {
+        //public static void Main(string[] args)
+        //{
+        //    CreateWebHostBuilder(args).Build().Run();
+        //}
+
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseStartup<Startup>();
+
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var host = WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetService<UserDBContext>();
+                db.Database.Migrate();
+            }
+
+            return host;
+        }
     }
 }

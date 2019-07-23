@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HotelAdministrationSystem.Migrations
 {
     [DbContext(typeof(HotelSystemDBContext))]
-    [Migration("20190708153135_initial")]
+    [Migration("20190723165708_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,18 +18,22 @@ namespace HotelAdministrationSystem.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("HotelAdministrationSystem.Domain.Entities.Client", b =>
                 {
                     b.Property<Guid>("ClientGuid");
 
+                    b.Property<decimal>("Bill");
+
                     b.Property<DateTime>("DepartureDate");
 
                     b.Property<DateTime>("EntryDate");
 
                     b.Property<string>("Name");
+
+                    b.Property<bool>("NowStaying");
 
                     b.Property<string>("Patronymic");
 
@@ -49,6 +53,8 @@ namespace HotelAdministrationSystem.Migrations
                     b.Property<int>("Capacity");
 
                     b.Property<bool>("Occupied");
+
+                    b.Property<decimal>("Price");
 
                     b.Property<int>("Residents");
 
