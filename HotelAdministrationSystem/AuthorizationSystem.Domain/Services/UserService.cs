@@ -3,7 +3,6 @@ using AuthorizationSystem.Controllers;
 using AuthorizationSystem.Domain.Abstractions;
 using AuthorizationSystem.Domain.Database;
 using AuthorizationSystem.Domain.Entities;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
